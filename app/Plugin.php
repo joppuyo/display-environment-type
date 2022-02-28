@@ -8,6 +8,7 @@ class Plugin {
 	use Traits\Utilities;
 
 	const STYLESHEET_HANDLE = 'det-toolbar-styles';
+	const SCRIPT_HANDLE = 'det-toolbar-script';
 
 	/**
 	 * Private constructor, as this class should not be instantiated.
@@ -46,6 +47,7 @@ class Plugin {
 		// Add styling.
 		add_action( 'admin_enqueue_scripts', [ $class, 'enqueue_styles' ] );
 		add_action( 'wp_enqueue_scripts', [ $class, 'enqueue_styles' ] );
+		add_action( 'enqueue_block_editor_assets', [ $class, 'enqueue_block_editor_assets' ] );
 	}
 
 	/**
@@ -133,5 +135,22 @@ class Plugin {
 	public static function enqueue_styles() {
 		wp_enqueue_style( self::STYLESHEET_HANDLE, self::get_url( 'css/admin.css' ) );
 	}
+
+	public static function enqueue_block_editor_assets() {
+        $filename = __DIR__ . '/../js/dist/index.asset.php';
+
+        if (!file_exists($filename)) {
+	        return;
+        }
+
+        $asset_file = include $filename;
+        wp_enqueue_script(
+            self::SCRIPT_HANDLE,
+            self::get_url( 'js/dist/index.js' ),
+            $asset_file['dependencies'],
+            $asset_file['version']
+        );
+        //wp_set_script_translations( 'createwithrani-quickpost-js' );
+    }
 
 }

@@ -1,0 +1,10 @@
+{
+  "name": "display-environment-type",
+  "scripts": {
+    "start": "wp-scripts start js/src/index.js --output-path=./js/dist",
+    "build": "wp-scripts build js/src/index.js --output-path=./js/dist"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^22.0.1"
+  }
+}
